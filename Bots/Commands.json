@@ -1,0 +1,85 @@
+[
+  {
+    "name": "help",
+    "code": "/help",
+    "description": "Print All commands, for detailed command info use '/help [command]' ",
+    "access": [ "Lecturer", "Student", "Guest" ],
+    "args": [ "CommandName" ], // this must be a command name
+    "typeArgs": [ "string" ],
+    "optional": [ "CommandName" ]
+  },
+  {
+    "name": "registerMe",
+    "code": "/registerMe",
+    "description": "Remember user as lecturer or student",
+    "access": [ "Guest" ],
+    "args": [
+      "role", //values: lecturer | student
+      "Family", //any type-satisfact
+      "GroupName" //
+    ],
+    "typeArgs": [ "Permission", "string", "string" ],
+    "optional": [ "GroupName" ]
+  },
+  {
+    "name": "registredList",
+    "code": "/registredList",
+    "description": "Show list of registred users",
+    "access": [ "Lecturer" ],
+    "args": [ "WhoListed" ], // values: lecturer | student
+    "typeArgs": [ "Permission" ],
+    "optional": [ "WhoListed" ]
+  },
+  {
+    "name": "myStudents",
+    "code": "/myStudents",
+    "description": "Show list of yours students",
+    "access": [ "Lecturer" ],
+    "args": [ "filter" ], //выбор по конкретной дисциплине или всех. values: discipline | gropup | all
+    "typeArgs": [ "string" ],
+    "optional": [ "filter" ]
+  },
+  {
+    "name": "myDisciplines",
+    "code": "/myDisciplines",
+    "description": "Show list of yours discipline",
+    "access": [ "Lecturer","Student" ],
+    "args": []
+  },
+  {
+    "name": "addStudent",
+    "code": "/addStudent",
+    "description": "Add student to lector",
+    "access": [ "Lecturer" ],
+    "args": [ "userName", "Family", "GroupName" ],
+    "optional": [ "Family", "GroupName" ],
+    "typeArgs": [ "string", "string", "string" ]
+  },
+  {
+    "name": "removeStudent",
+    "code": "/removeStudent",
+    "description": "Remove student from lector",
+    "access": [ "Lecturer" ],
+    "args": [ "userName" ],
+    "typeArgs": [ "string" ]
+
+  },
+  {
+    "name": "editStudent",
+    "code": "/editStudent",
+    "description": "Edit student data",
+    "access": [ "Lecturer", "Student" ],
+    "args": [ "userName", "Family", "GroupName" ],
+    //"optional": [ "Family", "GroupName" ],
+    "typeArgs": [ "string", "string", "string" ]
+  },
+  {
+    "name": "addMark",
+    "code": "/addMark",
+    "description": "Add mark to student",
+    "access": [ "Lecturer" ],
+    "args": [ "userName", "discipline", "mark" ],
+    "typeArgs": [ "string", "string", "double" ]
+  }
+]
+
