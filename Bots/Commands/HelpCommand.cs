@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace MainServer.Bots.Commands
         public HelpCommand(BaseCommand b, string From)
         {
             this.From = From;
-            _fullText = File.ReadAllText(@"C:\Users\Sorbus\Desktop\Магистратура\3Семестр\СистемыИИ\ChatBot\MainServer\Bots\Commands.json");
+            _fullText = File.ReadAllText(@".\Bots\Commands.json");
             _allCommands = JsonConvert.DeserializeObject<List<BaseCommand>>(_fullText);
             foreach (var field in typeof(BaseCommand).GetProperties())
             {

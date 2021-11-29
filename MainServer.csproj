@@ -1,10 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>fcfe47d2-3c5b-45eb-902b-038839c3c1a9</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <StartupObject>MainServer.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

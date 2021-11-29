@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +21,7 @@ namespace MainServer.Bots
         public CommandFactory()
         {
             //Get args and optionals from Commands.json by CommandName, and check current args
-            String json = File.ReadAllText(@"C:\Users\Sorbus\Desktop\Магистратура\3Семестр\СистемыИИ\ChatBot\MainServer\Bots\Commands.json");
+            String json = File.ReadAllText(@".\Bots\Commands.json");
             _availableCommands = JsonConvert.DeserializeObject<List<BaseCommand>>(json);
         }
 
