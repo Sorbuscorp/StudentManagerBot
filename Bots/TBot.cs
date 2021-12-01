@@ -74,7 +74,7 @@ namespace MainServer.Bots
                 {
                     ICommand command= validator.GetCommand();
                     string text=command.Run(_scope);//выполнить команду
-                    await botClient.SendTextMessageAsync(chatId: chatId, text: text);
+                    await botClient.SendTextMessageAsync(chatId: chatId, text: text, ParseMode.Html);
                     //await Command(botClient, chatId, msg.From);
                 }
                 catch (Exception e)

@@ -7,6 +7,11 @@ namespace MainServer.Models
 {
     public class Mark
     {
+        public Mark()
+        {
+            id = Guid.NewGuid();
+            Timestamp = DateTime.Now;
+        }
         public Guid id { get; set; }
         public DateTime Timestamp { get; set; }
         public double Value { get; set; }

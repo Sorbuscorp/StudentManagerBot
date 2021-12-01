@@ -9,11 +9,12 @@ namespace MainServer.Models
     {
         public Student()
         {
-            Marks = new Dictionary<string, Mark[]>();
+            Marks = new Dictionary<string, List<Mark>>();
+            Lecturers = new List<Lecturer>();
         }
         public string Group { get; set; }
 
-        public Dictionary<string, Mark[]> Marks { get; set; }
+        public Dictionary<string, List<Mark>> Marks { get; set; }
         public string Username { get; set; }
         public string FIO { get; set; }
 
@@ -22,5 +23,7 @@ namespace MainServer.Models
             return Marks.Select(rating => rating.Key).ToArray();
 
         }
+
+        public ICollection<Lecturer> Lecturers { get; set; }
     }
 }

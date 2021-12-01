@@ -35,9 +35,12 @@
     "code": "/myStudents",
     "description": "Show list of yours students",
     "access": [ "Lecturer" ],
-    "args": [ "filter" ], //выбор по конкретной дисциплине или всех. values: discipline | gropup | all
-    "typeArgs": [ "string" ],
-    "optional": [ "filter" ]
+    "args": [
+      "filter", // values: discipline | group
+      "value"  // just string for filter value
+    ], 
+    "typeArgs": [ "string", "string" ],
+    "optional": [ "filter", "value" ]
   },
   {
     "name": "myDisciplines",
@@ -78,8 +81,14 @@
     "code": "/addMark",
     "description": "Add mark to student",
     "access": [ "Lecturer" ],
-    "args": [ "userName", "discipline", "mark" ],
-    "typeArgs": [ "string", "string", "double" ]
+    "args": [
+      "userName", //who to rate
+      "discipline", //what discipline
+      "mark", //double value of mark (in your point system)
+      "label"
+    ],
+    "typeArgs": [ "string", "string", "double" ],
+    "optional": [ "label" ]
   }
 ]
 

@@ -31,11 +31,6 @@ namespace MainServer.Bots.Commands
 
         bool checkArgs()
         {
-            if (required.Count == 0)
-                return true;
-
-            if (getedArgs.Count == 0)
-                return true;
 
             if (getedArgs.Count < required.Count)
                 return false;

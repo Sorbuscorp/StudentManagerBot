@@ -38,13 +38,13 @@ namespace MainServer.Repository
 
         public Lecturer GetPersonByUsername(string username)
         {
-            return _dbContext.Lecturers.Find(username);
+            return _dbContext.Lecturers.Include(x => x.Students).ToList().Find(x=>x.Username==username);
             
         }
 
         public IEnumerable<Lecturer> GetPersons()
         {
-            return _dbContext.Lecturers.ToList();
+            return _dbContext.Lecturers.Include(x => x.Students).ToList();
         }
 
         public void Save()
@@ -54,7 +54,7 @@ namespace MainServer.Repository
 
         public void UpdatePerson(Lecturer Person)
         {
-            _dbContext.Entry(Person).State = EntityState.Modified;
+            _dbContext.Lecturers.Update(Person);
             Save();
         }
     }

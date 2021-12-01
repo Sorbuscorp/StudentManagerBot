@@ -33,11 +33,15 @@ namespace MainServer.DBContexts
             .IsRequired()
             .HasConversion(
                 d => JsonConvert.SerializeObject(d, Formatting.None),
-                s => JsonConvert.DeserializeObject<Dictionary<string, Mark[]>>(s)
+                s => JsonConvert.DeserializeObject<Dictionary<string, List<Mark>>>(s)
             );
             modelBuilder.Entity<Student>().HasKey(p => p.Username);
-              modelBuilder.Entity<Student>().ToTable("Students");
+            //modelBuilder.Entity<Student>().HasMany(x => x.Lecturers).WithMany(x => x.Students);
+            modelBuilder.Entity<Student>().ToTable("Students");
+
+
             modelBuilder.Entity<Lecturer>().HasKey(p => p.Username);
+            modelBuilder.Entity<Lecturer>().HasMany(x => x.Students).WithMany(x => x.Lecturers);
             modelBuilder.Entity<Lecturer>().ToTable("Lecturers");
         }
     }

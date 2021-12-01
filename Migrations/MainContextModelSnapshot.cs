@@ -15,6 +15,21 @@ namespace MainServer.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.11");
 
+            modelBuilder.Entity("LecturerStudent", b =>
+                {
+                    b.Property<string>("LecturersUsername")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StudentsUsername")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LecturersUsername", "StudentsUsername");
+
+                    b.HasIndex("StudentsUsername");
+
+                    b.ToTable("LecturerStudent");
+                });
+
             modelBuilder.Entity("MainServer.Models.Lecturer", b =>
                 {
                     b.Property<string>("Username")
@@ -39,30 +54,28 @@ namespace MainServer.Migrations
                     b.Property<string>("Group")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("LecturerUsername")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Marks")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Username");
 
-                    b.HasIndex("LecturerUsername");
-
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("MainServer.Models.Student", b =>
+            modelBuilder.Entity("LecturerStudent", b =>
                 {
                     b.HasOne("MainServer.Models.Lecturer", null)
-                        .WithMany("Students")
-                        .HasForeignKey("LecturerUsername");
-                });
+                        .WithMany()
+                        .HasForeignKey("LecturersUsername")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("MainServer.Models.Lecturer", b =>
-                {
-                    b.Navigation("Students");
+                    b.HasOne("MainServer.Models.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsUsername")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

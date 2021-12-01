@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MainServer.Bots;
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using MainServer.Repository;
 using MainServer.Models;
+using System.Globalization;
 
 namespace MainServer.Bots.Commands
 {
-    public class AddStudentCommand : BaseCommand, ICommand
+    public class AddMarkCommand : BaseCommand, ICommand
     {
-        public List<string> required { get; set; }
-        public List<string> getedArgs { get; set; }
-        public string From { get; set; }
-        public AddStudentCommand(BaseCommand b, string From)
+        public AddMarkCommand(BaseCommand b, string From)
         {
             this.From = From;
             foreach (var field in typeof(BaseCommand).GetProperties())
@@ -23,33 +19,24 @@ namespace MainServer.Bots.Commands
                 field.SetValue(this, field.GetValue(b));
             }
         }
+        public List<string> required { get; set; }
+        public List<string> getedArgs { get; set; }
+        public string From { get; set; }
         public void setup(List<string> getArgs)
         {
             getedArgs = getArgs;
-            required = args.Except(optional).ToList();
+            if (optional == null)
+                required = args;
+            else
+                required = args.Except(optional).ToList();
         }
 
         bool checkArgs()
         {
             if (getedArgs.Count < required.Count)
                 return false;
-
-            //for (int i = 0; i < getedArgs.Count; i++)
-            // {
-            //     Type type = Assembly.GetExecutingAssembly().GetTypes().First(t => t.Name == typeArgs[i]); 
-            //     try
-            //     {
-            //         Enum.Parse(type, getedArgs[i].ToUpper());
-            //     }
-            //     catch(Exception e)
-            //     {
-            //         return false;
-            //     }
-            // }
-
             return true;
         }
-
         IPersonRepository<Lecturer> lecturerRep;
         IPersonRepository<Student> studentRep;
         public String Run(IServiceScopeFactory _scope)
@@ -59,8 +46,22 @@ namespace MainServer.Bots.Commands
                 return "cant run command with this args, try /help";
 
             string user = getedArgs[0];
-            string family = getedArgs[1];
-            string group = getedArgs.ElementAtOrDefault(2);
+            string discipline = getedArgs[1];
+            Mark mark = new Mark();
+           
+            try
+            {
+                double value = double.Parse(getedArgs[2], System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture);
+                mark.Value = value;
+            }
+            catch (Exception e)
+            {
+                return $"cant parse mark {getedArgs[2]} to double";
+            }
+
+            mark.Label = getedArgs.ElementAtOrDefault(3);
+            
+
             using (var scope = _scope.CreateScope())
             {
                 try
@@ -72,26 +73,29 @@ namespace MainServer.Bots.Commands
                     Student student = studentRep.GetPersonByUsername(user);
                     if (student == null)
                     {
-                        student = new Student();
-                        student.FIO = family;
-                        student.Username = user;
-                        student.Group = group;
-                        studentRep.AddPerson(student);
+                        return $"student {user} is not found. maybe use /help";
                     }
-                    else if (lec.Students.First(x => x == student) != null)
-                        return $"{user} already added to your student";
+                    if(!lec.Students.Contains(student))
+                    {
+                        return $"student {user} is not in yours studentlist. \n " +
+                            $"try /myStudents to see yours or add with /addStudent";
+                    }
 
-                    lec.Students.Add(student);
-                    student.Lecturers.Add(lec);
+                    if (student.Marks.ContainsKey(discipline))
+                    {
+                        student.Marks[discipline].Add(mark);
+                    }
+                    else
+                        student.Marks[discipline] = new List<Mark> { mark };
+
                     studentRep.UpdatePerson(student);
-                    lecturerRep.UpdatePerson(lec);
                 }
                 catch (Exception e)
                 {
                     return "adding error";
                 }
             }
-            res = $"Added {user} as student for you";
+            res = "Mark was added";
             return res;
         }
     }
